@@ -9,3 +9,7 @@ pip-delete-this-directory.txt
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# tests
+dataset/
+out/
