@@ -77,6 +77,16 @@ def _build_impl(frame_sequence: pims.FramesSequence,
         cr1, continued, _ = cv2.calcOpticalFlowPyrLK(convert(image_0), convert(image_1), corners_0.points, None, **flow_params)
 
         idxs = (cr1[:, 1] < image_1.shape[0] - 1) & (cr1[:, 0] < image_1.shape[1] - 1) & (cr1[:, 0] >= 0) & (cr1[:, 1] >= 0) & (continued.flatten() == 1)
+
+        visited_pixels = np.zeros_like(image_1, dtype=np.uint8)
+        for i, (fx, fy) in enumerate(cr1):
+            x, y = int(fx), int(fy)
+            if 0 <= y < image_1.shape[0] and 0 <= x < image_1.shape[1] and visited_pixels[y, x] == 1:
+                idxs[i] = 0
+            else:
+                cv2.circle(visited_pixels, (x, y), DST, 1, -1)
+
+
         cr1 = cr1[idxs]
 
         corners_ids_1 = corners_0.ids[idxs]
