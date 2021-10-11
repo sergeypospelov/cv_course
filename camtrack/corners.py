@@ -102,7 +102,7 @@ def _build_impl(frame_sequence: pims.FramesSequence,
         if len(corners_raw_extra.shape) > 0:
             corners_raw_extra = np.squeeze(corners_raw_extra, axis=1)
         
-        ids_extra = np.arange(0, corners_raw_extra.shape[0]) + corners_ids_1.max() + 1
+        ids_extra = np.arange(0, corners_raw_extra.shape[0]) + corners_0.ids.max() + 1
 
         all_ids = np.concatenate((corners_ids_1.flatten(), ids_extra))
 
