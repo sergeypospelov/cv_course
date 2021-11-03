@@ -72,7 +72,9 @@ def _build_impl(frame_sequence: pims.FramesSequence,
     )
 
     builder.set_corners_at_frame(0, corners_0)
-    
+
+    max_corner_id = corners_0.ids.max()
+
     for frame, image_1 in enumerate(frame_sequence[1:], 1):
         cr1, continued, _ = cv2.calcOpticalFlowPyrLK(convert(image_0), convert(image_1), corners_0.points, None, **flow_params)
 
@@ -102,7 +104,9 @@ def _build_impl(frame_sequence: pims.FramesSequence,
         if len(corners_raw_extra.shape) > 0:
             corners_raw_extra = np.squeeze(corners_raw_extra, axis=1)
         
-        ids_extra = np.arange(0, corners_raw_extra.shape[0]) + corners_0.ids.max() + 1
+        ids_extra = np.arange(0, corners_raw_extra.shape[0]) + max_corner_id
+
+        max_corner_id += corners_raw_extra.shape[0]
 
         all_ids = np.concatenate((corners_ids_1.flatten(), ids_extra))
 
