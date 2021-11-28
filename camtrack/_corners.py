@@ -53,7 +53,7 @@ class FrameCorners:
 
     @property
     def ids(self):
-        return self._ids
+        return self._ids.astype(np.int64)
 
     @property
     def points(self):

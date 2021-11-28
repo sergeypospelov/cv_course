@@ -259,7 +259,7 @@ class PointCloudBuilder:
     def __init__(self, ids: np.ndarray = None, points: np.ndarray = None,
                  colors: np.ndarray = None) -> None:
         super().__init__()
-        self._ids = ids if ids is not None else np.array([], dtype=np.int32)
+        self._ids = ids if ids is not None else np.array([], dtype=np.int64)
         self._points = points if points is not None else np.array([])
         self._colors = colors
         self._sort_data()
@@ -282,7 +282,7 @@ class PointCloudBuilder:
         yield self.colors
 
     def add_points(self, ids: np.ndarray, points: np.ndarray) -> None:
-        ids = ids.reshape(-1, 1)
+        ids = ids.reshape(-1, 1).astype(np.int64)
         points = points.reshape(-1, 3)
         _, (idx_1, idx_2) = snp.intersect(self.ids.flatten(), ids.flatten(),
                                           indices=True)
