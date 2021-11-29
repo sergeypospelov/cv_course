@@ -57,9 +57,10 @@ def _build_impl(frame_sequence: pims.FramesSequence,
 
     DST = 13
     BS = 11
-    N = image_0.shape[0] * image_0.shape[1] // DST // DST // 10
+    N = max(500, image_0.shape[0] * image_0.shape[1] // DST // DST // 9)
+    print(N)
 
-    corners_search_params = dict(blockSize=BS, qualityLevel=0.001, minDistance=DST)
+    corners_search_params = dict(blockSize=BS, qualityLevel=0.0007, minDistance=DST)
 
     corners_raw_0 = np.squeeze(cv2.goodFeaturesToTrack(image_0, N, **corners_search_params), axis=1)
 
